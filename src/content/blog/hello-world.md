@@ -21,7 +21,7 @@ The C compiler article captured so well the LLM's raw and relentless pursuit of 
 
 At the same time, I carry three LLMs in my pocket every day and another one is blinking an indifferent CLI cursor on my desktop as I write this. The possibilities seem to grow by the day, and the taste of real outcomes seem imminent. In contrast, in that bookstore, while browsing books in the pursuit of knowledge, the thought of ever writing a full C compiler by myself felt very distant, both a dream and a nightmare at the same time. 
 
-## _Is it contradictory to feel both loss and wonder for the progress AI is making? Sure, but this doesn't diminish either. In fact, experiencing both can ground us when engaging with, and tring to master the new AI tools at our disposal, and motivate us to keep exploring what comes next_
+## _Is it contradictory to feel both loss and wonder for the progress AI is making? Sure, but this doesn't diminish either. In fact, experiencing both can ground us when engaging with, and trying to master the new AI tools at our disposal, and motivate us to keep exploring what comes next_
 
 Welcome to my window office, from where I'll try to do exactly that, and share, from time to time, some of my writing. The topics will veer off the beaten path of my day-to-day job, so it feels appropriate to share them here with the disclaimer that they don’t represent the views of my employer. I have a plan for the next few posts, so stay tuned for more. Thanks for reading thus far, and "like and subscribe".
 
