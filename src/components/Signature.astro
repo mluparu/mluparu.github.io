@@ -1,0 +1,70 @@
+---
+import siteConfig from '../data/site-config';
+import CustomImage from './CustomImage.astro'; 
+import IconButton from './IconButton.astro';
+import RSSIcon from '../assets/icons/rss.svg';
+
+const titleClass = 'text-theme-foreground font-serif text-xl leading-tight font-medium sm:text-2xl';
+const socialLinks = siteConfig.socialLinks ?? [];
+---
+
+<header class="mx-auto mb-12 flex w-full max-w-3xl items-center gap-4 sm:mb-16">
+    {
+        siteConfig.avatar?.src && (
+            <a href="/about">
+                <CustomImage
+                    class="aspect-square w-12 rounded-full object-cover sm:w-14"
+                    {...siteConfig.avatar}
+                    loading="eager"
+                    fetchpriority="high"
+                    width={56}
+                    height={56}
+                    widths={[56, 112]}
+                    sizes="56px"
+                />
+            </a>
+        )
+    }
+    <div class="grow">
+        {
+            siteConfig.avatar?.src ? (
+                <p class={titleClass}>{siteConfig.title}</p>
+            ) : (
+                <a class={titleClass} href="/about">
+                    {siteConfig.title}
+                </a>
+            )
+        }
+        {siteConfig.subtitle && <p class="text-sm leading-tight">{siteConfig.subtitle}</p>}
+    </div>
+    <!-- {
+        socialLinks.length > 0 && (
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+                <IconButton href="/rss.xml" aria-label="RSS Feed" title="RSS Feed">
+                    <RSSIcon class="h-3 w-3 fill-none stroke-current" />
+                </IconButton>
+                {socialLinks.map((link) => (
+                    // <a
+                    //     class="inline-flex items-center justify-center text-sm hover:underline hover:underline-offset-2"
+                    //     href={link.href}
+                    //     target="_blank"
+                    //     rel="noopener noreferer"
+                    // >
+                    //     {link.text}
+                    // </a>
+                    <IconButton
+                        href={link.href}
+                        aria-label={link.text}
+                        title={link.text}
+                    >
+                        {link.image?.src && (
+                            <div class="h-3 w-3 fill-none stroke-current text-theme-foreground">
+                                <CustomImage src={link.image.src} alt={link.image.alt} />
+                            </div>
+                        )}
+                    </IconButton>
+                ))}
+            </div>
+        )
+    } -->
+</header>

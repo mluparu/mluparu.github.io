@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+    <defs>
+        <mask id="ml-mask">
+            <rect width="128" height="128" fill="white"/>
+            <text x="64" y="64" dy=".35em" font-family="Arial, sans-serif" font-weight="900" font-size="70" text-anchor="middle" fill="black">ml</text>
+        </mask>
+    </defs>
+    <circle cx="64" cy="64" r="64" mask="url(#ml-mask)" class="fill-current"/>
+    <style>
+        .fill-current { fill: black; }
+        @media (prefers-color-scheme: dark) {
+            .fill-current { fill: white; }
+        }
+    </style>
+</svg>

@@ -1,0 +1,46 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import BaseHead, { type Props as HeadProps } from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+export type Props = HeadProps & { showHeader?: boolean };
+
+const { showHeader = true, ...head } = Astro.props;
+---
+<!doctype html>
+<html lang="en" class="wrap-break-words antialiased">
+    <head>
+        <BaseHead {...head} />
+        <script is:inline>
+            const theme = (() => {
+                if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+                    return localStorage.getItem('theme');
+                }
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return 'dark';
+                }
+                return 'light';
+            })();
+
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            window.localStorage.setItem('theme', theme);
+        </script>
+        <ClientRouter />
+        <script is:inline src="/theme-toggle.js"></script>
+    </head>
+    <body class="bg-main text-main">
+        <div class="flex min-h-screen flex-col px-4 md:px-8">
+            {showHeader && <Breadcrumbs />}
+            <main class="mx-auto w-full max-w-3xl grow">
+                <slot />
+            </main>
+            <Footer />
+        </div>
+    </body>
+</html>

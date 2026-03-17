@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import Button from '../components/Button.astro';
+import Hero from '../components/Hero.astro';
+import PostPreview from '../components/PostPreview.astro';
+import IconButton from '../components/IconButton.astro';
+import RSSIcon from '../assets/icons/rss.svg';
+import siteConfig from '../data/site-config';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { sortItemsByDateDesc } from '../utils/data-utils';
+
+const posts = (await getCollection('blog')).sort(sortItemsByDateDesc);
+const featuredPosts = posts.filter(({ data }) => data.isFeatured);
+
+---
+
+<BaseLayout description={siteConfig.description}>
+    <Hero {...siteConfig.hero} />
+    <div class="mb-16 sm:mb-24">
+        <div class="mb-12 flex items-center justify-between gap-6 sm:mb-16">
+            <h1 class="font-serif text-2xl leading-tight italic sm:text-4xl">
+                <a href="/blog" class="hover:underline hover:decoration-dashed hover:decoration-1 hover:underline-offset-8">Writing</a>
+            </h1>
+            <IconButton href="/rss.xml" aria-label="RSS Feed" title="RSS Feed">
+                <RSSIcon class="h-5 w-5 fill-none stroke-current" />
+            </IconButton>
+        </div>
+        {featuredPosts?.length > 0 && featuredPosts.map((post) => (
+            <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
+        ))}
+        {featuredPosts?.length > 0 && (
+            <div class="mt-12 sm:mt-16">
+                <Button href="/blog">View All Posts</Button>
+            </div>
+        )}
+    </div>
+</BaseLayout>
