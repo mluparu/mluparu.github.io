@@ -2,6 +2,7 @@
 title: The next season of agents (Part 1) - Nobody’s building for chat anymore
 excerpt: Having worked on bringing some form or another of C++ compilers into customers hands during my years at Microsoft, news of Anthropic writing a C compiler from scratch with AI attracted my attention for all the reasons you would expect. But what stood out to me has nothing to do with that C compiler and has all to do with what’s coming next in the season of agents.
 publishDate: 'Mar 18 2026'
+updatedDate: 'Mar 18 2026'
 isFeatured: true
 tags:
   - Agents
