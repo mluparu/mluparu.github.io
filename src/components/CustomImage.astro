@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageInput } from '../types';
+import { marked } from 'marked';
 
 type Props = ImageInput & {
     class?: string;
@@ -12,15 +13,182 @@ type Props = ImageInput & {
     loading?: 'lazy' | 'eager';
     fetchpriority?: 'high' | 'low' | 'auto';
     decoding?: 'async' | 'sync' | 'auto';
+    zoomable?: boolean;
+    description?: string;
 };
 
-const { src, alt = '', class: className, loading = 'lazy', fetchpriority, decoding = 'async', ...rest } = Astro.props as Props;
+const { src, alt = '', class: className, loading = 'lazy', fetchpriority, decoding = 'async', zoomable, description, ...rest } = Astro.props as Props;
+
+const dialogId = zoomable ? `zoom-${Math.random().toString(36).slice(2, 11)}` : undefined;
+const parsedDescription = description ? await marked.parse(description) : undefined;
 ---
 
 {
-    typeof src === 'string' ? (
-        <img class={className} src={src} alt={alt} loading={loading} decoding={decoding} />
+    zoomable ? (
+        <>
+            <div class="flex flex-col">
+                {typeof src === 'string' ? (
+                    <img 
+                        class:list={[className, "cursor-zoom-in"]} 
+                        src={src} 
+                        alt={alt} 
+                        loading={loading} 
+                        decoding={decoding} 
+                        data-zoom-trigger 
+                        data-zoom-target={dialogId} 
+                    />
+                ) : (
+                    <Image 
+                        class:list={[className, "cursor-zoom-in"]} 
+                        src={src} 
+                        alt={alt} 
+                        loading={loading} 
+                        fetchpriority={fetchpriority} 
+                        decoding={decoding} 
+                        {...(rest as any)} 
+                        data-zoom-trigger 
+                        data-zoom-target={dialogId} 
+                    />
+                )}
+                {parsedDescription && (
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-2 prose prose-sm max-w-none prose-p:my-0" set:html={parsedDescription} />
+                )}
+            </div>
+            
+            <dialog id={dialogId} class="image-overlay fixed inset-0 w-full h-full max-w-none max-h-none m-0 p-0 bg-transparent border-none overflow-hidden outline-none select-none">
+                <div class="relative w-full h-full flex items-center justify-center p-4 md:p-12 pointer-events-none">
+                    <button class="close-overlay absolute top-4 right-4 text-white hover:opacity-70 transition-opacity p-2 cursor-pointer pointer-events-auto z-50" aria-label="Close overlay">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="flex flex-col items-center justify-center max-w-full max-h-full">
+                        {typeof src === 'string' ? (
+                            <img 
+                                class="max-w-full max-h-full object-contain shadow-2xl pointer-events-auto" 
+                                src={src} 
+                                alt={alt} 
+                            />
+                        ) : (
+                            <Image 
+                                class="max-w-full max-h-full object-contain shadow-2xl pointer-events-auto" 
+                                src={src} 
+                                alt={alt} 
+                            />
+                        )}
+                    </div>
+                </div>
+                {parsedDescription && (
+                    <div class="description-panel absolute bottom-0 left-0 w-full bg-black/60 backdrop-blur-md text-white p-8 md:p-12 flex flex-col items-center transition-transform duration-300 translate-y-0 z-40 pointer-events-auto" data-expanded="true">
+                        <button class="toggle-description absolute -top-12 right-8 bg-black/60 backdrop-blur-md text-white p-2 rounded-t-lg hover:bg-black/80 transition-colors cursor-pointer border-none" aria-label="Toggle description">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 transition-transform duration-300">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="text-3xl md:text-5xl font-bold text-center prose prose-invert prose-2xl max-w-4xl prose-p:my-0" set:html={parsedDescription} />
+                    </div>
+                )}
+            </dialog>
+        </>
     ) : (
-        <Image class={className} src={src} alt={alt} loading={loading} fetchpriority={fetchpriority} decoding={decoding} {...(rest as any)} />
+        <div class="flex flex-col">
+            {typeof src === 'string' ? (
+                <img class={className} src={src} alt={alt} loading={loading} decoding={decoding} />
+            ) : (
+                <Image class={className} src={src} alt={alt} loading={loading} fetchpriority={fetchpriority} decoding={decoding} {...(rest as any)} />
+            )}
+            {parsedDescription && (
+                <div class="text-sm text-gray-600 dark:text-gray-400 mt-2 prose prose-sm max-w-none prose-p:my-0" set:html={parsedDescription} />
+            )}
+        </div>
     )
 }
+
+{zoomable && (
+<style>
+    .cursor-zoom-in {
+        cursor: zoom-in;
+    }
+    
+    dialog::backdrop {
+        background-color: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(4px);
+    }
+    
+    dialog[open] {
+        display: block;
+    }
+
+    .description-panel[data-expanded="false"] {
+        transform: translateY(100%);
+    }
+    
+    .description-panel[data-expanded="false"] .toggle-description svg {
+        transform: rotate(180deg);
+    }
+</style>
+
+<script>
+    const setup = () => {
+        if (window.zoomableImageSetup) return;
+        window.zoomableImageSetup = true;
+
+        document.addEventListener('click', (e) => {
+            const target = e.target as HTMLElement;
+            
+            // Check if we clicked a zoom trigger
+            const trigger = target.closest('[data-zoom-trigger]');
+            if (trigger) {
+                const targetId = trigger.getAttribute('data-zoom-target');
+                const dialog = document.getElementById(targetId!) as HTMLDialogElement;
+                if (dialog) {
+                    const panel = dialog.querySelector('.description-panel');
+                    if (panel) panel.setAttribute('data-expanded', 'true');
+                    dialog.showModal();
+                    document.body.style.overflow = 'hidden';
+                }
+                return;
+            }
+
+            // Handle description toggle
+            const toggle = target.closest('.toggle-description');
+            if (toggle) {
+                const panel = toggle.closest('.description-panel') as HTMLElement;
+                const isExpanded = panel.getAttribute('data-expanded') === 'true';
+                panel.setAttribute('data-expanded', (!isExpanded).toString());
+                return;
+            }
+
+            // Check if we clicked a close button or the dialog backdrop
+            if (target.closest('.close-overlay') || (target.tagName === 'DIALOG' && target.classList.contains('image-overlay'))) {
+                const dialog = target.closest('dialog') || (target as HTMLDialogElement);
+                if (dialog instanceof HTMLDialogElement && dialog.open) {
+                    dialog.close();
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+
+        // Handle Escape key
+        document.addEventListener('cancel', (e) => {
+            if ((e.target as HTMLElement).tagName === 'DIALOG' && (e.target as HTMLElement).classList.contains('image-overlay')) {
+                document.body.style.overflow = '';
+            }
+        }, true);
+    };
+
+    // Run setup
+    setup();
+    
+    // Support View Transitions
+    document.addEventListener('astro:after-swap', setup);
+
+    // Extend Window interface for TypeScript
+    declare global {
+        interface Window {
+            zoomableImageSetup: boolean;
+        }
+    }
+</script>
+)}
