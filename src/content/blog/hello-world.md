@@ -2,7 +2,6 @@
 title: New blog, new blogpost
 excerpt: Hello World! I’m Marian. Welcome to my blog. 🫣 After reading, a few weeks ago, Anthropic’s article on writing a C compiler from scratch with Claude, I went down a rabbit hole of binge reading a lot of articles and research papers about AI, agents, orchestrations, and model optimizations. I loved every bit of it, and a biproduct of this adventure in Wonderland is a renewed interest in writing more. About what? Stay tuned, this is a developing story…
 publishDate: 'Mar 16 2026'
-isFeatured: true
 tags:
   - Personal
 seo:
