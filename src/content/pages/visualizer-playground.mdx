@@ -1,0 +1,48 @@
+---
+title: Visualizer Playground
+seo:
+  description: Interactive examples for the embedded Visualizer workflow component on this Astro site.
+---
+
+import Visualizer from '../../components/Visualizer.astro';
+
+This page exercises the new `Visualizer` wrapper, loads workflow logs from `public/visualizer/`, and now follows the blog theme automatically (`dark → midnight`, `light → light`).
+
+## 1. Default embedded explorer
+
+This is the fuller playground setup: standard chrome, a visible theme picker, and a comfortable desktop-sized height.
+
+<Visualizer
+  jsonlPath="/visualizer/parallel-agents.jsonl"
+  height="720px"
+  showThemePicker={true}
+  fileLabel="parallel-agents.jsonl"
+  defaultMode='reveal'
+  viewportMode='follow'
+  followSmoothing={0.001}
+/>
+
+## 2. Reveal mode with autoplay on scroll
+
+This example starts in `reveal` mode and begins playback automatically once the component becomes visible.
+
+<Visualizer
+  jsonlPath="/visualizer/reveal-review-loop.jsonl"
+  defaultMode="reveal"
+  autoplayWhenVisible={true}
+  height="680px"
+  fileLabel="Hello World"
+  viewportMode='follow'
+  followSmoothing={0.01}
+/>
+
+## 3. Compact article-style embed
+
+For a lighter in-post presentation, keep the height smaller and hide the extra chrome.
+
+<Visualizer
+  jsonlPath="/visualizer/compact-release-train.jsonl"
+  height="360px"
+  showChrome={false}
+  autoplayWhenVisible={true}
+/>

@@ -55,9 +55,9 @@ const parsedDescription = description ? await marked.parse(description) : undefi
                 )}
             </div>
             
-            <dialog id={dialogId} class="image-overlay fixed inset-0 w-full h-full max-w-none max-h-none m-0 p-0 bg-transparent border-none overflow-hidden outline-none select-none">
+            <dialog id={dialogId} class="image-overlay dark:bg-black/80 bg-white/10 fixed inset-0 w-full h-full max-w-none max-h-none m-0 p-0 bg-transparent border-none overflow-hidden outline-none select-none">
                 <div class="relative w-full h-full flex items-center justify-center p-4 md:p-12 pointer-events-none">
-                    <button class="close-overlay absolute top-4 right-4 text-white hover:opacity-70 transition-opacity p-2 cursor-pointer pointer-events-auto z-50" aria-label="Close overlay">
+                    <button class="close-overlay absolute top-4 right-4 text-black dark:text-white hover:opacity-70 transition-opacity p-2 cursor-pointer pointer-events-auto z-50" aria-label="Close overlay">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -80,13 +80,13 @@ const parsedDescription = description ? await marked.parse(description) : undefi
                     </div>
                 </div>
                 {parsedDescription && (
-                    <div class="description-panel absolute bottom-0 left-0 w-full bg-black/60 backdrop-blur-md text-white p-8 md:p-12 flex flex-col items-center transition-transform duration-300 translate-y-0 z-40 pointer-events-auto" data-expanded="true">
-                        <button class="toggle-description absolute -top-12 right-8 bg-black/60 backdrop-blur-md text-white p-2 rounded-t-lg hover:bg-black/80 transition-colors cursor-pointer border-none" aria-label="Toggle description">
+                    <div class="description-panel absolute bottom-0 left-0 w-full bg-white/60 dark:bg-black/60 backdrop-blur-md text-black dark:text-white p-8 md:p-12 flex flex-col items-center transition-transform duration-300 translate-y-0 z-40 pointer-events-auto" data-expanded="true">
+                        <button class="toggle-description absolute -top-12 right-8 bg-white/60 dark:bg-black/60 backdrop-blur-md text-black dark:text-white p-2 rounded-t-lg hover:bg-white/80 dark:hover:bg-black/80 transition-colors cursor-pointer border-none" aria-label="Toggle description">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 transition-transform duration-300">
                                 <path d="m6 9 6 6 6-6"/>
                             </svg>
                         </button>
-                        <div class="text-3xl md:text-5xl font-bold text-center prose prose-invert prose-2xl max-w-4xl prose-p:my-0" set:html={parsedDescription} />
+                        <div class="text-3xl md:text-5xl font-bold text-center prose dark:prose-invert prose-2xl max-w-4xl prose-p:my-0" set:html={parsedDescription} />
                     </div>
                 )}
             </dialog>
@@ -112,6 +112,11 @@ const parsedDescription = description ? await marked.parse(description) : undefi
     }
     
     dialog::backdrop {
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(4px);
+    }
+    
+    :global(.dark) dialog::backdrop {
         background-color: rgba(0, 0, 0, 0.9);
         backdrop-filter: blur(4px);
     }
