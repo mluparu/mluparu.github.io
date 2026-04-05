@@ -1,0 +1,7 @@
+{"title":"Human-in-the-loop Review","description":"A draft is reviewed, revised, approved, and published with reveal-mode playback enabled."}
+{"taskId":"outline","name":"Outline key points","status":"completed","startTime":0,"endTime":2,"dependsOn":[],"cost":0.03,"ttft":0.1}
+{"taskId":"draft","name":"Draft article","status":"completed","startTime":2,"endTime":6,"dependsOn":["outline"],"cost":0.22,"ttft":0.4}
+{"taskId":"policy-review","name":"Policy review","status":"failed","startTime":6,"endTime":8,"dependsOn":["draft"],"error":"Needs stronger citations before approval.","cost":0.05,"ttft":0.2}
+{"taskId":"revise","name":"Revise and strengthen citations","status":"completed","startTime":8,"endTime":11,"dependsOn":["policy-review"],"cost":0.14,"ttft":0.3}
+{"taskId":"approval","name":"Final approval","status":"completed","startTime":11,"endTime":12,"dependsOn":["revise"],"cost":0.02,"ttft":0.1}
+{"taskId":"publish","name":"Publish update","status":"completed","startTime":12,"endTime":13,"dependsOn":["approval"],"cost":0.03,"ttft":0.1}

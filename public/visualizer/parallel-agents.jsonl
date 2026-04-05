@@ -1,0 +1,7 @@
+{"title":"Parallel Research Sprint","description":"A planning agent fans out to specialized research agents, then merges into a single draft and review flow."}
+{"taskId":"plan","name":"Plan outline","status":"completed","startTime":0,"endTime":2,"dependsOn":[],"cost":0.05,"ttft":0.2}
+{"taskId":"research-web","name":"Web research agent","status":"completed","startTime":2,"endTime":7,"dependsOn":["plan"],"group":"Research","prompt_cache_key":"plan","prompt_tokens":1600,"cached_tokens":720,"cost":0.24,"ttft":0.5}
+{"taskId":"research-code","name":"Codebase research agent","status":"completed","startTime":2,"endTime":6,"dependsOn":["plan"],"group":"Research","prompt_cache_key":"plan","prompt_tokens":1400,"cached_tokens":840,"cost":0.19,"ttft":0.4}
+{"taskId":"draft","name":"Draft synthesis","status":"completed","startTime":7,"endTime":11,"dependsOn":["research-web","research-code"],"cost":0.31,"ttft":0.6}
+{"taskId":"review","name":"Human review","status":"completed","startTime":11,"endTime":13,"dependsOn":["draft"],"cost":0.02,"ttft":0.3}
+{"taskId":"publish","name":"Publish article","status":"completed","startTime":13,"endTime":15,"dependsOn":["review"],"cost":0.04,"ttft":0.2}

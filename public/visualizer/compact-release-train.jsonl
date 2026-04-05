@@ -1,0 +1,6 @@
+{"title":"Launch Day Checklist","description":"A compact fan-out/fan-in workflow that fits naturally inside a blog post."}
+{"taskId":"scope","name":"Lock scope","status":"completed","startTime":0,"endTime":1,"dependsOn":[],"cost":0.02,"ttft":0.1}
+{"taskId":"demo","name":"Capture demo","status":"completed","startTime":1,"endTime":4,"dependsOn":["scope"],"cost":0.11,"ttft":0.2}
+{"taskId":"copy","name":"Polish copy","status":"completed","startTime":1,"endTime":3,"dependsOn":["scope"],"cost":0.09,"ttft":0.2}
+{"taskId":"qa","name":"Final QA pass","status":"completed","startTime":4,"endTime":5,"dependsOn":["demo","copy"],"cost":0.04,"ttft":0.2}
+{"taskId":"launch","name":"Launch post","status":"completed","startTime":5,"endTime":6,"dependsOn":["qa"],"cost":0.03,"ttft":0.1}

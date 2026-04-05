@@ -1,0 +1,63 @@
+---
+import type { PlaybackMode, ThemeName, ViewportMode } from 'visualizer';
+import VisualizerClient from './VisualizerClient.vue';
+
+export interface Props {
+    jsonlPath?: string;
+    jsonlText?: string;
+    theme?: ThemeName;
+    defaultMode?: PlaybackMode;
+    viewportMode?: ViewportMode;
+    followSmoothing?: number;
+    autoplayWhenVisible?: boolean;
+    height?: string;
+    showChrome?: boolean;
+    showThemePicker?: boolean;
+    showCloseButton?: boolean;
+    fileLabel?: string;
+    syncWithSiteTheme?: boolean;
+}
+
+const {
+    jsonlPath,
+    jsonlText,
+    theme = 'midnight',
+    defaultMode = 'preview',
+    viewportMode = 'fit',
+    followSmoothing = 0.1,
+    autoplayWhenVisible = false,
+    height = '720px',
+    showChrome = true,
+    showThemePicker = false,
+    showCloseButton = false,
+    fileLabel,
+    syncWithSiteTheme = true
+} = Astro.props;
+
+const baseUrl = import.meta.env.BASE_URL ?? '/';
+const resolvedJsonlPath =
+    jsonlPath && /^(?:[a-z]+:)?\/\//i.test(jsonlPath)
+        ? jsonlPath
+        : jsonlPath
+          ? `${baseUrl.replace(/\/$/, '')}/${jsonlPath.replace(/^\//, '')}`
+          : undefined;
+---
+
+<div class="not-prose my-8 overflow-hidden rounded-2xl border border-black/10 bg-white/40 shadow-sm dark:border-white/10 dark:bg-white/5">
+    <VisualizerClient
+        client:visible
+        jsonlPath={resolvedJsonlPath}
+        jsonlText={jsonlText}
+        theme={theme}
+        defaultMode={defaultMode}
+        viewportMode={viewportMode}
+        followSmoothing={followSmoothing}
+        autoplayWhenVisible={autoplayWhenVisible}
+        height={height}
+        showChrome={showChrome}
+        showThemePicker={showThemePicker}
+        showCloseButton={showCloseButton}
+        fileLabel={fileLabel}
+        syncWithSiteTheme={syncWithSiteTheme}
+    />
+</div>
