@@ -1,0 +1,6 @@
+{"title":"Optimized orchestration via context sharing with create_task","description":"context-share() prepares the context from main-agent for consumption for the 2 spawned tasks, dramatically improving cache-hit rates, lowering TTFT, and reducing cost"}
+{"taskId":"main-agent","name":"main-agent","status":"completed","startTime":0,"endTime":2.0,"dependsOn":[],"prompt_tokens":102000,"cached_tokens":0,"ttft":1.2,"cost":0.17}
+{"taskId":"context-share","name":"context-share","prompt_cache_key":"main-agent","status":"completed","startTime":2.0,"endTime":2.2,"dependsOn":["main-agent"],"cost":0.01}
+{"taskId":"worker-1","name":"worker(task_1)","status":"completed","startTime":2.2,"endTime":3.5,"dependsOn":["context-share"],"prompt_cache_key":"main-agent","prompt_tokens":105000,"cached_tokens":102000,"ttft":1.1,"cost":0.05}
+{"taskId":"worker-2","name":"worker(task_2)","status":"completed","startTime":2.2,"endTime":4.2,"dependsOn":["context-share"],"prompt_cache_key":"main-agent","prompt_tokens":107000,"cached_tokens":102000,"ttft":1.2,"cost":0.02}
+{"taskId":"main-agent-completion","name":"main-agent completion","status":"completed","startTime":4.2,"endTime":6.2,"dependsOn":["worker-1","worker-2"],"prompt_cache_key":"worker(task_2)","prompt_tokens":108000,"cached_tokens":107000,"ttft":1.2,"cost":0.4}

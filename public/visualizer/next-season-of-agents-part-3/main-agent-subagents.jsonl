@@ -1,0 +1,5 @@
+{"title":"Simple orchestration via runSubagent","description":"Subagents need to rehydrate their context, and cache hits are usually low, leading to missed opportunity for $ discounts and larger TTFT (time-to-first-token)"}
+{"taskId":"main-agent","name":"main-agent","status":"completed","startTime":0,"endTime":2.0,"dependsOn":[],"prompt_tokens":102000,"cached_tokens":0, "ttft":1.2, "cost":0.17}
+{"taskId":"subagent-task-1","name":"runSubagent(task_1)","status":"completed","startTime":2.0,"endTime":6.0,"dependsOn":["main-agent"],"prompt_tokens":105000,"cached_tokens":0, "ttft":3.5, "cost":0.21}
+{"taskId":"subagent-task-2","name":"runSubagent(task_2)","status":"completed","startTime":2.0,"endTime":6.5,"dependsOn":["main-agent"],"prompt_tokens":107000,"cached_tokens":0, "ttft":3.8, "cost":0.23}
+{"taskId":"main-agent-completion","name":"main-agent completion","status":"completed","startTime":6.0,"endTime":8.0,"dependsOn":["subagent-task-1","subagent-task-2"],"prompt_cache_key":"main agent","prompt_tokens":108000,"cached_tokens":102000, "ttft":1.2, "cost":0.4}
